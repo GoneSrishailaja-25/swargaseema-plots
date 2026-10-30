@@ -1,0 +1,5 @@
+{
+  "name": "Sawargseema Ventures — Open Plots",
+  "description": "Browse open plots, prices, and the interactive layout of Sawargseema Ventures.",
+  "capabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,62 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1793189160789,
+      "tag": "0000_migration",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793204491183,
+      "tag": "0001_ownership_officer_role",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793204541002,
+      "tag": "0002_secure_ownership_verification",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793204571989,
+      "tag": "0003_ownership_upload_validation_access",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1793204780557,
+      "tag": "0004_ownership_notification_trigger_fields",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1793279536774,
+      "tag": "0005_ownership_admin_review",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1793287997932,
+      "tag": "0006_plot_mapping_and_history",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1793361811512,
+      "tag": "0007_restrict_plot_history_grants",
+      "breakpoints": true
+    }
+  ]
+}
