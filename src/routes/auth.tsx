@@ -37,19 +37,8 @@ const registerSchema = z.object({
   password,
 });
 
-function AuthPage() {
-  const navigate = useNavigate();
-  const [busy, setBusy] = useState(false);
-  const [login, setLogin] = useState({ mobile: "", password: "" });
-  const [reg, setReg] = useState({
-    full_name: "",
-    mobile: "",
-    address: "",
-    contact_email: "",
-    password: "",
-  });
-  const digits = normalizeMobile;
-  const MobileInput = ({ value, onChange }: { value: string; onChange: (v: string) => void }) => (
+function MobileInput({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  return (
     <>
       <div className="flex">
         <span className="inline-flex items-center rounded-l-md border border-r-0 bg-muted px-3 text-sm text-muted-foreground">
@@ -61,7 +50,7 @@ function AuthPage() {
           autoComplete="tel-national"
           placeholder="98765 43210"
           value={value}
-          onChange={(e) => onChange(digits(e.target.value))}
+          onChange={(e) => onChange(normalizeMobile(e.target.value))}
         />
       </div>
       {value.length === 10 && !MOBILE_RE.test(value) && (
@@ -71,6 +60,19 @@ function AuthPage() {
       )}
     </>
   );
+}
+
+function AuthPage() {
+  const navigate = useNavigate();
+  const [busy, setBusy] = useState(false);
+  const [login, setLogin] = useState({ mobile: "", password: "" });
+  const [reg, setReg] = useState({
+    full_name: "",
+    mobile: "",
+    address: "",
+    contact_email: "",
+    password: "",
+  });
 
   const doLogin = async (e: React.FormEvent) => {
     e.preventDefault();

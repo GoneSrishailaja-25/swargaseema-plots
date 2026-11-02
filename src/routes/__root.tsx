@@ -40,35 +40,51 @@ function NotFoundComponent() {
 }
 
 function ErrorComponent({ error, reset }: ErrorComponentProps) {
-  console.error(error);
-  const router = useRouter();
+  console.error("[RootError]", error);
   useEffect(() => {
-    reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    try {
+      reportLovableError(error, { boundary: "tanstack_root_error_component" });
+    } catch (err) {
+      void err;
+    }
   }, [error]);
+
+  const handleReset = () => {
+    try {
+      reset();
+    } catch {
+      window.location.reload();
+    }
+  };
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
         <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
+          Welcome to Sawargseema Ventures
         </h1>
         <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+          A temporary issue prevented this page from rendering fully. Tap below to reload or explore
+          plots.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
-            onClick={() => {
-              router.invalidate();
-              reset();
-            }}
+            onClick={handleReset}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
           >
-            Try again
+            Reload Page
           </button>
           <a
             href="/"
             className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-accent"
           >
-            Go home
+            Go to Home
+          </a>
+          <a
+            href="/layout"
+            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-accent"
+          >
+            Visual Layout
           </a>
         </div>
       </div>
@@ -96,7 +112,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      {
+        rel: "icon",
+        href: "/assets/aistudio/sawargseema-symbol_logo_2_1d694da5.webp",
+        type: "image/webp",
+      },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -130,21 +150,46 @@ function RootComponent() {
   const router = useRouter();
 
   useEffect(() => {
-    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
-      if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
-      if (event === "SIGNED_OUT") queryClient.clear();
-      else queryClient.invalidateQueries();
-      router.invalidate();
-    });
-    const channel = supabase
-      .channel(`plots-${Math.random().toString(36).slice(2)}`)
-      .on("postgres_changes", { event: "*", schema: "public", table: "plots" }, () => {
-        queryClient.invalidateQueries({ queryKey: ["plots"] });
-      })
-      .subscribe();
+    let sub: { subscription?: { unsubscribe: () => void } } | undefined;
+    try {
+      const res = supabase.auth.onAuthStateChange((event) => {
+        if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
+        if (event === "SIGNED_OUT") queryClient.clear();
+        else queryClient.invalidateQueries();
+        try {
+          router.invalidate();
+        } catch (err) {
+          void err;
+        }
+      });
+      sub = res?.data;
+    } catch (e) {
+      console.warn("[Root] Auth subscription error:", e);
+    }
+
+    let channel: ReturnType<typeof supabase.channel> | undefined;
+    try {
+      channel = supabase
+        .channel(`plots-${Math.random().toString(36).slice(2)}`)
+        .on("postgres_changes", { event: "*", schema: "public", table: "plots" }, () => {
+          queryClient.invalidateQueries({ queryKey: ["plots"] });
+        })
+        .subscribe();
+    } catch (e) {
+      console.warn("[Root] Realtime subscription error:", e);
+    }
+
     return () => {
-      sub.subscription.unsubscribe();
-      supabase.removeChannel(channel);
+      try {
+        sub?.subscription?.unsubscribe();
+      } catch (err) {
+        void err;
+      }
+      try {
+        if (channel) supabase.removeChannel(channel);
+      } catch (err) {
+        void err;
+      }
     };
   }, [queryClient, router]);
 

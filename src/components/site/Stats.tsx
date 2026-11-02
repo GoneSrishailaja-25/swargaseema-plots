@@ -88,11 +88,14 @@ export function Charts({
     const bySize = sizes.map((sz) => {
       const prices = plots
         .filter((p) => Number(p.size_sqyd) === sz)
-        .map((p) => Number(p.total_price) / 100000);
+        .map((p) => Number(p.total_price) / 100000)
+        .filter((pr) => !isNaN(pr) && isFinite(pr));
+      const min = prices.length > 0 ? Math.min(...prices) : 0;
+      const max = prices.length > 0 ? Math.max(...prices) : 0;
       return {
         name: `${sz}`,
-        Min: +Math.min(...prices).toFixed(1),
-        Max: +Math.max(...prices).toFixed(1),
+        Min: +(isNaN(min) || !isFinite(min) ? 0 : min).toFixed(1),
+        Max: +(isNaN(max) || !isFinite(max) ? 0 : max).toFixed(1),
       };
     });
     const months: { name: string; Sales: number }[] = [];
@@ -112,7 +115,7 @@ export function Charts({
   return (
     <div className="grid gap-4 md:grid-cols-2">
       <ChartCard title="Plot availability">
-        <ResponsiveContainer>
+        <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={d.status}
@@ -132,7 +135,7 @@ export function Charts({
         </ResponsiveContainer>
       </ChartCard>
       <ChartCard title="Plots by phase">
-        <ResponsiveContainer>
+        <ResponsiveContainer width="100%" height="100%">
           <BarChart data={d.byPhase}>
             <CartesianGrid strokeDasharray="3 3" vertical={false} />
             <XAxis dataKey="name" fontSize={12} />
@@ -148,7 +151,7 @@ export function Charts({
       {full && (
         <>
           <ChartCard title="Availability by facing direction">
-            <ResponsiveContainer>
+            <ResponsiveContainer width="100%" height="100%">
               <BarChart data={d.byFacing}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="name" fontSize={12} />
@@ -161,7 +164,7 @@ export function Charts({
             </ResponsiveContainer>
           </ChartCard>
           <ChartCard title="Price range by plot size (₹ lakh, size in sq.yd)">
-            <ResponsiveContainer>
+            <ResponsiveContainer width="100%" height="100%">
               <BarChart data={d.bySize}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} />
                 <XAxis dataKey="name" fontSize={12} />
@@ -175,7 +178,7 @@ export function Charts({
           </ChartCard>
           <div className="md:col-span-2">
             <ChartCard title="Monthly sales (last 12 months)">
-              <ResponsiveContainer>
+              <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={d.months}>
                   <CartesianGrid strokeDasharray="3 3" vertical={false} />
                   <XAxis dataKey="name" fontSize={12} />

@@ -8,7 +8,11 @@ export const Route = createFileRoute("/process")({
   head: () => ({
     meta: [
       { title: "Registration & Booking Process — Sawargseema Ventures" },
-      { name: "description", content: "Step-by-step guide from account creation to property registration, with required documents." },
+      {
+        name: "description",
+        content:
+          "Step-by-step guide from account creation to property registration, with required documents.",
+      },
       { property: "og:title", content: "How to Book a Plot — Sawargseema Ventures" },
       { property: "og:description", content: "Seven steps from enquiry to registration." },
       { property: "og:type", content: "website" },
@@ -28,19 +32,34 @@ const STEPS = [
   ["Property registration", "Register the property at the appropriate Sub-Registrar office."],
 ];
 
-const DOCS = ["Aadhaar card", "PAN card", "Passport-size photographs", "Address proof", "Payment proof / bank details", "Two witnesses with ID proof (at registration)"];
+const DOCS = [
+  "Aadhaar card",
+  "PAN card",
+  "Passport-size photographs",
+  "Address proof",
+  "Payment proof / bank details",
+  "Two witnesses with ID proof (at registration)",
+];
 
 function Process() {
   const { data: v } = useQuery(ventureQuery);
   return (
     <>
-      <PageHeader title="Registration Process" sub="How booking and registration works, step by step." />
+      <PageHeader
+        title="Registration Process"
+        sub="How booking and registration works, step by step."
+      />
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-10 md:grid-cols-3">
         <ol className="space-y-4 md:col-span-2">
           {STEPS.map(([t, d], i) => (
             <li key={t} className="flex gap-4 rounded-xl border bg-card p-5 shadow-card">
-              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary font-display font-bold text-primary-foreground">{i + 1}</span>
-              <div><p className="font-semibold">{t}</p><p className="text-sm text-muted-foreground">{d}</p></div>
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-primary font-display font-bold text-primary-foreground">
+                {i + 1}
+              </span>
+              <div>
+                <p className="font-semibold">{t}</p>
+                <p className="text-sm text-muted-foreground">{d}</p>
+              </div>
             </li>
           ))}
         </ol>
@@ -48,7 +67,12 @@ function Process() {
           <div className="rounded-xl border bg-secondary p-6">
             <p className="font-semibold">Required documents</p>
             <ul className="mt-3 space-y-2 text-sm">
-              {DOCS.map((d) => <li key={d} className="flex gap-2"><FileText className="h-4 w-4 text-accent" />{d}</li>)}
+              {DOCS.map((d) => (
+                <li key={d} className="flex gap-2">
+                  <FileText className="h-4 w-4 text-accent" />
+                  {d}
+                </li>
+              ))}
             </ul>
           </div>
           <div className="rounded-xl border bg-card p-6 text-sm">
@@ -57,7 +81,9 @@ function Process() {
             <p>{v?.email}</p>
           </div>
           <p className="text-xs text-muted-foreground">
-            Legal approval and registration status of any plot must be independently verified with the venture office and the relevant authorities. This website does not certify legal status.
+            Legal approval and registration status of any plot must be independently verified with
+            the venture office and the relevant authorities. This website does not certify legal
+            status.
           </p>
         </aside>
       </div>

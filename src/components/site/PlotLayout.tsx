@@ -47,27 +47,28 @@ export const plotStatusStyles: Record<
     subText: "text-slate-900",
   },
   sold: {
-    bg: "bg-rose-600 hover:bg-rose-500 active:bg-rose-700",
-    border: "border-rose-700 ring-rose-600/30",
+    bg: "bg-red-700 hover:bg-red-600 active:bg-red-800",
+    border: "border-red-800 ring-red-700/30",
     text: "text-white",
-    badgeBg: "bg-rose-700/80 text-white",
+    badgeBg: "bg-red-800 text-white",
     label: "Sold",
-    subText: "text-rose-100",
+    subText: "text-red-100",
   },
 };
 
-function formatCompactPrice(price: number | null): string {
-  if (price === null || price <= 0) return "—";
-  if (price >= 10000000) {
-    return `₹${(price / 10000000).toFixed(2)} Cr`;
+function formatCompactPrice(price: number | null | undefined): string {
+  if (price == null || isNaN(Number(price)) || Number(price) <= 0) return "—";
+  const numPrice = Number(price);
+  if (numPrice >= 10000000) {
+    return `₹${(numPrice / 10000000).toFixed(2)} Cr`;
   }
-  if (price >= 100000) {
-    return `₹${(price / 100000).toFixed(1)} L`;
+  if (numPrice >= 100000) {
+    return `₹${(numPrice / 100000).toFixed(1)} L`;
   }
-  if (price >= 1000) {
-    return `₹${(price / 1000).toFixed(0)}k`;
+  if (numPrice >= 1000) {
+    return `₹${(numPrice / 1000).toFixed(0)}k`;
   }
-  return `₹${price}`;
+  return `₹${numPrice}`;
 }
 
 export function PlotLayout({
@@ -157,8 +158,8 @@ export function PlotLayout({
               <span className="h-2 w-2 rounded-full bg-amber-500" />
               {counts.reserved} Reserved
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-rose-600/30 bg-rose-600/10 px-3 py-1 font-medium text-rose-700">
-              <span className="h-2 w-2 rounded-full bg-rose-600" />
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-red-700/30 bg-muted px-3 py-1 font-medium text-red-700">
+              <span className="h-2 w-2 rounded-full bg-red-700" />
               {counts.sold} Sold
             </span>
             <span className="text-muted-foreground font-medium pl-1">
@@ -309,7 +310,7 @@ export function PlotLayout({
             <span className="h-3.5 w-3.5 rounded bg-amber-500 shadow-sm" /> Reserved (Under process)
           </span>
           <span className="flex items-center gap-1.5 font-medium text-foreground">
-            <span className="h-3.5 w-3.5 rounded bg-rose-600 shadow-sm" /> Sold (Registered)
+            <span className="h-3.5 w-3.5 rounded bg-red-700 shadow-sm" /> Sold (Registered)
           </span>
         </div>
         <span className="text-right italic">

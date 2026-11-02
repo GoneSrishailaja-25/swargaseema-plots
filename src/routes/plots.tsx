@@ -69,7 +69,7 @@ function Plots() {
       "size-asc": (a, b) => Number(a.size_sqyd) - Number(b.size_sqyd),
       "size-desc": (a, b) => Number(b.size_sqyd) - Number(a.size_sqyd),
     };
-    return [...r].sort(by[sort]);
+    return [...r].sort(by[sort] ?? by.number);
   }, [plots, q, phase, facing, status, maxPrice, minArea, maxArea, quality, sort]);
 
   const phaseName = (id: string | null) => phases.find((p) => p.id === id)?.name ?? "—";

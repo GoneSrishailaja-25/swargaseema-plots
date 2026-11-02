@@ -33,11 +33,15 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-2 px-4">
         <Link
           to="/"
-          className="flex min-w-0 items-center gap-2 font-display text-lg font-bold text-navy"
+          className="flex min-w-0 items-center gap-2.5 font-display text-lg font-bold text-navy"
         >
-          <span className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-primary-foreground">
-            <Trees className="h-5 w-5" />
-          </span>
+          <img
+            src="/assets/aistudio/sawargseema-symbol_logo_2_1d694da5.webp"
+            alt="Sawargseema Ventures"
+            width={36}
+            height={36}
+            className="h-9 w-9 shrink-0 object-contain"
+          />
           <span className="truncate">{v?.name ?? "Sawargseema Ventures"}</span>
         </Link>
         <nav className="ml-auto hidden items-center gap-1 xl:flex">
@@ -113,9 +117,18 @@ export function SiteFooter() {
   return (
     <footer className="mt-20 bg-navy text-navy-foreground">
       <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 md:grid-cols-3">
-        <div>
-          <p className="font-display text-lg font-bold">{v?.name}</p>
-          <p className="mt-2 text-sm opacity-80">{v?.tagline}</p>
+        <div className="flex items-start gap-3">
+          <img
+            src="/assets/aistudio/sawargseema-symbol_logo_2_1d694da5.webp"
+            alt="Sawargseema Ventures"
+            width={40}
+            height={40}
+            className="h-10 w-10 shrink-0 object-contain rounded-lg bg-white/10 p-1"
+          />
+          <div>
+            <p className="font-display text-lg font-bold">{v?.name ?? "Sawargseema Ventures"}</p>
+            <p className="mt-1 text-sm opacity-80">{v?.tagline}</p>
+          </div>
         </div>
         <div className="text-sm opacity-90">
           <p className="font-semibold">Office</p>

@@ -2,7 +2,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Download, Pencil, Plus, Trash2, Calculator, ShieldCheck, CheckCircle2 } from "lucide-react";
+import {
+  Download,
+  Pencil,
+  Plus,
+  Trash2,
+  Calculator,
+  ShieldCheck,
+  CheckCircle2,
+} from "lucide-react";
 import {
   parseVentureCostConfig,
   serializeVentureAbout,
@@ -829,7 +837,7 @@ function CostConfigAdmin() {
     const updated: CostRateConfig = {
       ...config,
       rates_verified_at: config.rates_verified
-        ? config.rates_verified_at ?? new Date().toISOString()
+        ? (config.rates_verified_at ?? new Date().toISOString())
         : null,
       rates_verified_by: config.rates_verified_by.trim() || (user?.email ?? "Administrator"),
     };

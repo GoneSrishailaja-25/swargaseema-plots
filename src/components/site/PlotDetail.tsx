@@ -27,7 +27,7 @@ import {
 export const statusBadge: Record<string, string> = {
   available: "bg-emerald-600 text-white hover:bg-emerald-700",
   reserved: "bg-amber-500 text-slate-950 font-semibold hover:bg-amber-600",
-  sold: "bg-rose-600 text-white hover:bg-rose-700",
+  sold: "bg-red-700 text-white hover:bg-red-800",
 };
 
 export function PlotDetailDialog({ plot, onClose }: { plot: Plot | null; onClose: () => void }) {
@@ -206,7 +206,7 @@ export function PlotDetailDialog({ plot, onClose }: { plot: Plot | null; onClose
                           ? "bg-emerald-600 text-white ring-2 ring-emerald-600 ring-offset-1"
                           : s === "reserved"
                             ? "bg-amber-500 text-slate-950 font-bold ring-2 ring-amber-500 ring-offset-1"
-                            : "bg-rose-600 text-white ring-2 ring-rose-600 ring-offset-1"
+                            : "bg-red-700 text-white ring-2 ring-red-700 ring-offset-1"
                         : "bg-muted text-muted-foreground hover:bg-muted/80"
                     }`}
                   >
@@ -422,12 +422,12 @@ export function PlotDetailDialog({ plot, onClose }: { plot: Plot | null; onClose
                 <span className="font-semibold text-primary flex items-center gap-1.5">
                   <Calculator className="h-3.5 w-3.5" /> Full Cost & Tax Breakdown
                 </span>
-                <span className="text-[11px] text-muted-foreground">Stamp duty, Reg & Dev fees</span>
+                <span className="text-[11px] text-muted-foreground">
+                  Stamp duty, Reg & Dev fees
+                </span>
               </div>
               <Button asChild variant="outline" size="sm" className="w-full text-xs gap-1.5 h-8">
-                <Link to="/calculator">
-                  Calculate All Statutory Fees & Additional Costs
-                </Link>
+                <Link to="/calculator">Calculate All Statutory Fees & Additional Costs</Link>
               </Button>
             </div>
 

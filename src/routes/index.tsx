@@ -47,7 +47,16 @@ function Index() {
           <p className="inline-flex items-center gap-2 rounded-full bg-primary px-3 py-1 text-xs font-semibold text-primary-foreground">
             <MapPin className="h-3.5 w-3.5" /> {v?.location}
           </p>
-          <h1 className="mt-4 max-w-3xl text-4xl font-extrabold md:text-6xl">{v?.name}</h1>
+          <div className="mt-4 flex items-center gap-3.5 sm:gap-4">
+            <img
+              src="/assets/aistudio/sawargseema-symbol_logo_2_1d694da5.webp"
+              alt="Sawargseema Ventures"
+              width={56}
+              height={56}
+              className="h-12 w-12 sm:h-14 sm:w-14 shrink-0 object-contain drop-shadow"
+            />
+            <h1 className="max-w-3xl text-4xl font-extrabold md:text-6xl">{v?.name}</h1>
+          </div>
           <p className="mt-4 max-w-xl text-lg opacity-90">{v?.tagline}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button asChild size="lg">
@@ -56,7 +65,12 @@ function Index() {
             <Button asChild size="lg" variant="secondary">
               <Link to="/plots">View plots & prices</Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10">
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="border-white/30 text-white hover:bg-white/10"
+            >
               <Link to="/calculator">Cost calculator</Link>
             </Button>
           </div>

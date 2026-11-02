@@ -23,6 +23,7 @@ const errorMiddleware = createMiddleware().server(async ({ next }) => {
 // from cross-site requests.
 const csrfMiddleware = createCsrfMiddleware({
   filter: (ctx) => ctx.handlerType === "serverFn",
+  allowRequestsWithoutOriginCheck: true,
 });
 
 export const startInstance = createStart(() => ({

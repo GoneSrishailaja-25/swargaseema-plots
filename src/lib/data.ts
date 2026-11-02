@@ -61,8 +61,10 @@ export const plotsQuery = queryOptions({
 export function computeStats(plots: Plot[]) {
   const s = { total: plots.length, available: 0, reserved: 0, sold: 0, plotArea: 0 };
   for (const p of plots) {
-    s[p.status]++;
-    s.plotArea += Number(p.size_sqyd);
+    if (p && p.status && p.status in s) {
+      s[p.status as "available" | "reserved" | "sold"]++;
+    }
+    s.plotArea += Number(p?.size_sqyd) || 0;
   }
   return s;
 }
